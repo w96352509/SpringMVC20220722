@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Insert title index
+</title>
 </head>
 <body>
 	Hello <%=new Date() %>
