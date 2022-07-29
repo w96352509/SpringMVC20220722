@@ -27,6 +27,7 @@ public class LottoController {
 	// Lotto 主畫面
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public String index(Model model) {
+		model.addAttribute("stat",get());
 		model.addAttribute("lottos" , lottos);
 		return "session09/lotto";
 	}
@@ -39,6 +40,7 @@ public class LottoController {
 		// 將最新 lotto 號碼放入紀錄中
 		lottos.add(lotto);
 		// 將必要資訊傳給 jsp 呈現/處理
+		model.addAttribute("stat",get());
 		model.addAttribute("lotto"  , lotto);
 		model.addAttribute("lottos" , lottos);
 		System.out.println("歷史資料 :" + lottos);
@@ -49,6 +51,7 @@ public class LottoController {
 	public String update(@PathVariable("index") Integer index , Model model) {
 		Set<Integer> lotto = getRandomLotto();
 		lottos.set(index,lotto);
+		model.addAttribute("stat",get());
 		model.addAttribute("lotto"  , lotto);  // 最新電腦選號
 		model.addAttribute("lottos" , lottos); // 歷史紀錄
 		return "redirect:../"; 
@@ -56,8 +59,9 @@ public class LottoController {
 	
 	@RequestMapping("/delete/{index}")
 	public String delete(@PathVariable("index") int index , Model model) {
-		lottos.remove(index); 
-		model.addAttribute("lotto", null); 
+		lottos.remove(index);
+		model.addAttribute("lotto", null);
+		model.addAttribute("stat",get());
 		model.addAttribute("lottos", lottos); 
 		return "redirect:../"; 
 	}
@@ -91,6 +95,7 @@ public class LottoController {
 				      .collect(Collectors.toList());    // List<Integer>
 	    
 		// 分組
+		//    數     次數
 		Map<Integer, Long> group = 
 				nums.stream()
 				    .collect(
@@ -98,14 +103,16 @@ public class LottoController {
 				        Function.identity(), 
 				        Collectors.counting()));
 	
-		// 結果
+		// 排序結果
+		//     數     次數
 		Map<Integer , Long> map = new LinkedHashMap<>();
 		
-		// 排序後放入 Map
+		// 排序後放入結果map
 		group.entrySet()
 		     .stream()
 		     .sorted(Map.Entry.<Integer , Long>comparingByValue().reversed())
 		     .forEachOrdered(e->map.put(e.getKey(), e.getValue()));
+		
 		System.out.println(map);
 		return map ;
 	}
