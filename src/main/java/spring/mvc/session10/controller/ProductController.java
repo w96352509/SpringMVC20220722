@@ -6,11 +6,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.mvc.session10.entity.Product;
@@ -20,6 +22,11 @@ import spring.mvc.session10.entity.Product;
 public class ProductController {
 
 	private List<Product> products = new CopyOnWriteArrayList<>();
+	{
+	  products.add(new Product("Java01",100,100.0));
+	  products.add(new Product("Java02",200,200.0));
+	  products.add(new Product("Java03",300,300.0));
+	}
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -30,28 +37,39 @@ public class ProductController {
 	@PostMapping("/")
 	public String add(Product product , RedirectAttributes attr) {
 		products.add(product);
-		System.out.println("新增:" + products);
 		attr.addFlashAttribute("product",product); 
 		// 將 product 資料傳給 /addOk 讓 success.jsp 呈現
 		// 防止網頁重新整理 , 防止二次 subbmit
-		return "redirect: addOk";
+		return "redirect:addOk";
 	}
 	
 	// 防止重新整理
-	@GetMapping(value = {"/addOk" , "/updateOk"})
+	@GetMapping(value = {"/addOk" , "/updateOk" , "/deleteOk"})
 	public String success() {
 		return "session10/success";
 	}
 	
 	@GetMapping("/get/{index}")
-	public String get(@PathVariable("index") int index , Model model) {
-		Product product = products.get(index);
+	public String get(@PathVariable("index") int index , Model model , @RequestParam(name = "delete" , required = false , defaultValue = "false") boolean delete) {
+	    Product product = products.get(index);
 		model.addAttribute("product" , product);
-		return "session10/product_update";
+		model.addAttribute("index" , index );
+		return delete ? "session10/product_delete" :"session10/product_update";
+	
 	}
 	
+	// jsp-> <input hidden />
+	@PutMapping("/{index}")
+	public String update(@PathVariable("index") int index , RedirectAttributes attr , Product product) {
+		products.set(index, product);
+		System.out.println("修改");
+		attr.addFlashAttribute("product" , product);
+		return "redirect:updateOk";
+	}
 	
-
-	
-	
+	@DeleteMapping("/{index}")
+	public String delete(@PathVariable("index") int index) {
+		products.remove(index);
+		return "redirect:./";
+	}
 }

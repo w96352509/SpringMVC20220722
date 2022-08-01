@@ -2,19 +2,9 @@ package spring.mvc.session10.entity;
 
 public class Product {
 
-	private String  productName; // 名稱
-	private Integer quantity;    // 數量
-	private Double price;        // 價格
-			
-	public Product() {
-		
-	}
-	
-	public Product(String productName, Integer quantity, Double price) {
-		this.productName = productName;
-		this.quantity = quantity;
-		this.price = price;
-	}
+	private String productName; // 名稱
+	private Integer quantity; // 數量
+	private Double price; // 價格
 
 	public String getProductName() {
 		return productName;
@@ -45,5 +35,15 @@ public class Product {
 		return "Product [productName=" + productName + ", quantity=" + quantity + ", price=" + price + "]";
 	}
 
-	
+	public Product(String productName, Integer quantity, Double price) {
+
+		this.productName = productName;
+		this.quantity = quantity;
+		this.price = price;
+	}
+
+	public Product() {
+
+	}
+
 }
