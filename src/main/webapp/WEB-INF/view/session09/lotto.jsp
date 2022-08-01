@@ -28,10 +28,12 @@
 		class="pure-button pure-button-primary">
 		統計運算
 	</button>
+	<p />
+	Value : 
 	<table class="pure-table pure-table-bordered">
 	 <thead>
 	 <tr>
-	 <th>號碼</th>
+	 <th nowrap="nowrap">號碼</th>
 	  <c:forEach var="s" items="${ stat }">
 	   <th>${s.getKey()}</th>
 	   </c:forEach>
@@ -39,13 +41,34 @@
 	 </thead>
 	 <tbody>
 	 <tr>
-	  <td>次數</td>
+	  <td nowrap="nowrap">次數</td>
 	  <c:forEach var="s" items="${ stat }">
 	   <td>${s.getValue()}</td>
 	  </c:forEach>
 	  </tr>
 	 </tbody>
 	</table>
+	<p />
+	KEY :
+	<table class="pure-table pure-table-bordered">
+	 <thead>
+	 <tr>
+	 <th nowrap="nowrap">號碼</th>
+	  <c:forEach var="s" items="${ stat2 }">
+	   <th>${s.getKey()}</th>
+	   </c:forEach>
+	  </tr>
+	 </thead>
+	 <tbody>
+	 <tr>
+	  <td nowrap="nowrap">次數</td>
+	  <c:forEach var="s" items="${ stat2 }">
+	   <td>${s.getValue()}</td>
+	  </c:forEach>
+	  </tr>
+	 </tbody>
+	</table>
+	
 	<p />
 	歷史紀錄
 	<table class="pure-table pure-table-bordered">
