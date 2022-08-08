@@ -19,12 +19,12 @@
 	 
  }
  
- function deleteUser(index){
-	 var deleteUrl ='${pageContext.request.contextPath}/mvc/user/' + index;
-	 fetch(deleteUrl,{method:'DELETE'})
-	      .then(() => window.location.href='${pageContext.request.contextPath}/mvc/user/')
-	 
- }
+
+	function deleteUser(index) {
+		var deleteUrl = '${ pageContext.request.contextPath }/mvc/user/' + index;
+		fetch(deleteUrl, {method: 'DELETE'})
+			.then(() => window.location.href='${ pageContext.request.contextPath }/mvc/user/');
+	}
  
 </script>
 </head>
@@ -33,6 +33,7 @@
               action="${ pageContext.request.contextPath }/mvc/user/${index}">
  <fieldset>
   <legend>使用者表單</legend>
+  <input type="hidden" id="_method" name="_method" value="${_method }">
   姓名 : <spform:input type="text" path="name"/><p/>
   年齡 : <spform:input type="number" path="age"/><p/>
   生日 : <spform:input type="date"   path="birth"/><p/> 
@@ -53,7 +54,7 @@
          <spform:checkbox path="interest" value="飛控"/>飛控
          <p/>
   履歷 : <spform:textarea path="resume" /><p/>
-  <input type="hidden" id="_method" name="_method" value="${_method }">
+  
    <button type="submit" class="pure-button pure-button-primary">${submitbuttonName}</button>
  </fieldset>             
  </spform:form>

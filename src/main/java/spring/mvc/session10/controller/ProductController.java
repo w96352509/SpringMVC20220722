@@ -70,6 +70,8 @@ public class ProductController {
 	@DeleteMapping("/{index}")
 	public String delete(@PathVariable("index") int index) {
 		products.remove(index);
+		System.out.println("刪除成功");
 		return "redirect:./";
 	}
+	
 }

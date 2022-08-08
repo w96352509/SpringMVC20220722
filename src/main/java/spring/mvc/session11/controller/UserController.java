@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +31,6 @@ public class UserController {
   }
   @GetMapping("/")
   public String index(Model model , @ModelAttribute User user) {
-	  System.out.println(users);
 	  model.addAttribute("_method","POST"); // Hidden Filter
 	  model.addAttribute("submitbuttonName", "新增");
 	  model.addAttribute("users" , users);
@@ -53,6 +53,7 @@ public class UserController {
 	  model.addAttribute("submitbuttonName", "修改");
 	  model.addAttribute("index", index);
 	  model.addAttribute("users" , users);
+	  System.out.println(delete+"123");
 	  return "session11/user";
   }
   
@@ -62,10 +63,27 @@ public class UserController {
 	 return "redirect:./";
   }
   
-  @RequestMapping(method = {RequestMethod.DELETE} , value = "/{index}")
-  public String delete(@PathVariable("index") int index ) {
-	  users.remove(index);
-	  return "redirect:./";
+  /*
+  @DeleteMapping("/test/{index}")
+  public String test(@PathVariable("index") int index,Model model) {
+	  model.addAttribute("_method","DELETE");
+	  System.out.println("處李");
+	  return "redirect:../"+index;
   }
+  */
+  @RequestMapping(value = "/{index}" ,method = RequestMethod.DELETE )
+  public String delete(@PathVariable("index") int index) {
+	  users.remove(index);
+	  // System.out.println("刪除成功");
+	  return "redirect:./test";
+  }
+    
+    @DeleteMapping("/test")
+	public String test() {
+		// System.out.println("處理");
+		return "";
+	}
+  
+  
   
 }
