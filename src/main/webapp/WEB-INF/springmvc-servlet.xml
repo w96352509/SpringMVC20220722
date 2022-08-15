@@ -78,7 +78,7 @@
 	    <!-- & -> &amp; -->    
 		<!-- basic -->
 		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/web?serverTimezone=Asia/Taipei&amp;characterEncoding=utf-8&amp;useUnicode=true" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/web2?serverTimezone=Asia/Taipei&amp;characterEncoding=utf-8&amp;useUnicode=true" />
 		<property name="user" value="root" />
 		<property name="password" value="12345678" />
 		
