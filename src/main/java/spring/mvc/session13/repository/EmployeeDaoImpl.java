@@ -71,8 +71,23 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public List<Employee> queryPage(int offset) {
-
-		return null;
+		ResultSetExtractor<List<Employee>> resultSetExtractor = 
+				JdbcTemplateMapperFactory.newInstance()
+				.addKeys("eid")
+				.newResultSetExtractor(Employee.class);
+		
+		String sql ="select e.eid , e.ename,e.salary ,e.createtime, "
+				  + "j.jid as job_jid , j.jname as job_jname , j.eid as job_eid "
+				  + "from employee e left join job j on e.eid =j.jid";
+		
+		// 加入分頁查詢
+		if(offset>=0) {
+			System.out.println("LINIT"+LIMIT);
+			System.out.println("OFFSET"+offset);
+			sql += String.format(" limit %d offset %d ", LIMIT, offset);
+		}
+		
+		return jdbcTemplate.query(sql,resultSetExtractor);
 	}
-
 }
+

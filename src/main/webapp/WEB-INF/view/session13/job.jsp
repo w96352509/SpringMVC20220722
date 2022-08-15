@@ -24,6 +24,35 @@
 			document.getElementById("job").submit();
 		}
 	</script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+	    function drawChart() {
+	    	var data = google.visualization.arrayToDataTable([
+		        ['ename', 'job_count'],
+		        <c:forEach var="emp" items="${ employees }">
+		        	// 判斷工作數量是否  > 0
+		        	<c:if test="${ fn:length(emp.jobs) > 0 }">
+		        		// 判斷第一筆工作的 jid 不可以是 null
+				        <c:if test="${ emp.jobs[0].jid != null }">
+				        	['${ emp.ename }', ${ fn:length(emp.jobs) }],
+				        </c:if>
+				        <c:if test="${ emp.jobs[0].jid == null }">
+				        	['${ emp.ename }', 0],
+				        </c:if>	
+			        </c:if>
+		        </c:forEach>
+			]);
+		
+			var options = {
+				title: 'Jobs'
+			};
+		
+			var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
+			chart.draw(data, options);	    	
+	    }
+	</script>
 </head>
 <body style="padding: 15px;">
 	<table >
@@ -59,7 +88,12 @@
 			<td valign="top" colspan="2">
 				<form class="pure-form">
 					<fieldset>
-						<legend>Job List</legend>
+						<legend>Job List |
+						<a href="${pageContext.request.contextPath}/mvc/jdbc/job/page/-1">全部查詢</a> |
+						<c:forEach end="${pageCount}" begin="1" var="num">
+						 <a href="${pageContext.request.contextPath}/mvc/jdbc/job/page/${num}">${num}</a>
+						</c:forEach>
+						</legend>
 					</fieldset>
 					<table class="pure-table puretable-bordered">
 						<thead>
@@ -77,7 +111,7 @@
 							<c:forEach var="job" items="${ jobs }">
 								<tr>
 									<td>
-										<a href="./${ job.jid }" title="按我一下可以修改">
+										<a href="${ pageContext.request.contextPath }/mvc/jdbc/job/${ job.jid }" title="按我一下可以修改">
 											${ job.jid }
 										</a>
 									</td>
@@ -95,8 +129,14 @@
 				</form>
 			</td>
 			<!-- Job Bar Chart -->
+			<!-- Job Bar Chart -->
 			<td valign="top">
-				Job Bar Chart
+				<form class="pure-form">
+					<fieldset>
+						<legend>Job Bar Chart</legend>
+						<div id="bar_chart" style="width: 400px; height: 250px"></div>
+					</fieldset>
+				</form>
 			</td>
 		</tr>
 	</table>

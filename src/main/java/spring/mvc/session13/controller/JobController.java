@@ -31,19 +31,26 @@ public class JobController {
 	@Autowired
 	private EmployeeDao employeeDao;
 
+	private int getPageCount() {
+		int pageCount = (int)Math.ceil((double)jobDao.getCount()/jobDao.LIMIT);
+	    return pageCount;
+	}
+	
 	@GetMapping("/")
 	public String index(Model model, @ModelAttribute Job job) {
 		model.addAttribute("_method", "POST");
 		model.addAttribute("jobs", jobDao.query());
+		model.addAttribute("pageCount",getPageCount());
 		model.addAttribute("employees", employeeDao.query());
 		return "session13/job";
 	}
 
 	@GetMapping("/page/{num}")
-	public String page(@PathVariable("num") Integer num , Model model) {
+	public String page(@PathVariable("num") Integer num , @ModelAttribute Job job , Model model) {
 		int offset = (num-1) * JobDao.LIMIT; // -1 是因為 offset是(index)
 		model.addAttribute("_method", "POST");
 		model.addAttribute("jobs", jobDao.queryPage(offset));
+		model.addAttribute("pageCount",getPageCount());
 		model.addAttribute("employees", employeeDao.query());
 		return "session13/job";
 	}
@@ -53,6 +60,7 @@ public class JobController {
 		model.addAttribute("_method", "PUT");
 		model.addAttribute("jobs", jobDao.query());
 		model.addAttribute("job", jobDao.get(jid));
+		model.addAttribute("pageCount",getPageCount());
 		model.addAttribute("employees", employeeDao.query());
 		return "session13/job";
 	}
@@ -62,6 +70,7 @@ public class JobController {
 		if (result.hasErrors()) {
 			model.addAttribute("_method", "POST");
 			model.addAttribute("jobs", jobDao.query());
+			model.addAttribute("pageCount",getPageCount());
 			model.addAttribute("job", job);
 			return "session13/job";
 		}
@@ -74,6 +83,7 @@ public class JobController {
 		if (result.hasErrors()) {
 			model.addAttribute("_method", "PUT");
 			model.addAttribute("jobs", jobDao.query());
+			model.addAttribute("pageCount",getPageCount());
 			model.addAttribute("job", job);
 			return "session13/job";
 		}
@@ -88,6 +98,7 @@ public class JobController {
 		} catch (Exception e) {
 			model.addAttribute("_method", "PUT");
 			model.addAttribute("jobs", jobDao.query());
+			model.addAttribute("pageCount",getPageCount());
 			model.addAttribute("job", job);
 			return "session13/job";
 		}

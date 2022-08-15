@@ -76,14 +76,14 @@ public class JobDaoImpl implements JobDao {
 				.addKeys("jid")
 				.newResultSetExtractor(Job.class);
 		
-		String sql ="select "
-				  + "j.jid , j.jname , j.eid , "
-				  + "e.eid as employee_eid , e.ename as employee_ename , e.salary as employee_salary , e.createtime as employee_createtime "
-				  + "from job j left join employee e on j.eid = e.eid ordery by j.jid ";
+		String sql = "select e.eid, e.ename, e.salary, e.createtime, "
+				   + "j.jid as job_jid, j.jname as job_jname, j.eid as job_eid "
+				   + "from employee e left join job j on e.eid = j.eid order by e.eid";
 		
 		// 加入分頁查詢
 		if(offset>=0) {
-			sql += String.format("limit %d offset %d", LIMIT , offset );
+			
+			sql += String.format(" limit %d offset %d ", LIMIT, offset);
 		}
 		
 		return jdbcTemplate.query(sql,resultSetExtractor);

@@ -26,11 +26,37 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeDao employeeDao;
+
+	
+	private int getCountPage() {
+		int pageCount = (int)Math.ceil((double)employeeDao.getCount()/employeeDao.LIMIT);
+		return pageCount;
+	}
 	
 	@GetMapping("/")
 	public String index(Model model , @ModelAttribute Employee employee) { // 首頁
 		model.addAttribute("_method","POST");
 		model.addAttribute("employees", employeeDao.query());
+		model.addAttribute("pageCount" , getCountPage());
+		return "session13/employee";
+	}
+	
+	@GetMapping("/page/{num}")
+	public String getPage(@PathVariable("num") Integer num , @ModelAttribute Employee employee , Model model) {
+		int offset = (num - 1) * EmployeeDao.LIMIT;
+		model.addAttribute("_method","POST");
+		model.addAttribute("employees", employeeDao.queryPage(offset));
+		System.out.println(employeeDao.queryPage(offset).toString());
+		model.addAttribute("pageCount" , getCountPage());
+		return "session13/employee";
+	}
+	
+	@GetMapping("/{eid}")
+	public String get(@PathVariable("eid") Integer eid , Model model) {
+		model.addAttribute("employee",employeeDao.get(eid));
+		model.addAttribute("_method","PUT");
+		model.addAttribute("employees", employeeDao.query());
+		model.addAttribute("pageCount" , getCountPage());
 		return "session13/employee";
 	}
 	
@@ -40,19 +66,13 @@ public class EmployeeController {
     	model.addAttribute("_method","POST");
   		model.addAttribute("employees", employeeDao.query());
   		model.addAttribute("employee" , employee);
+  		model.addAttribute("pageCount" , getCountPage());
   		return "session13/employee";
       }
         employeeDao.add(employee);
         return "redirect:./";
 	}	
 	
-	@GetMapping("/{eid}")
-	public String get(@PathVariable("eid") Integer eid , Model model) {
-		model.addAttribute("employee",employeeDao.get(eid));
-		model.addAttribute("_method","PUT");
-		model.addAttribute("employees", employeeDao.query());
-		return "session13/employee";
-	}
 	
 	@PutMapping("/")
 	public String update(@Valid Employee employee ,BindingResult result , Model model) {
@@ -60,6 +80,7 @@ public class EmployeeController {
 			model.addAttribute("employee",employee);
 			model.addAttribute("_method","PUT");
 			model.addAttribute("employees", employeeDao.query());
+			model.addAttribute("pageCount" , getCountPage());
 			return "session13/employee";
 		}
 		   employeeDao.update(employee);
@@ -74,6 +95,7 @@ public class EmployeeController {
 			model.addAttribute("employee",employee);
 			model.addAttribute("_method","PUT");
 			model.addAttribute("employees", employeeDao.query());
+			model.addAttribute("pageCount" , getCountPage());
 			model.addAttribute("message" , "員工尚有工作無法刪除");
 			return "session13/employee";
 		} 

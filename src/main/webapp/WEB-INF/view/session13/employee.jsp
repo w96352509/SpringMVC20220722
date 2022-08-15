@@ -19,12 +19,11 @@
 		}
 	</style>
 	<script type="text/javascript">
-	 function changeMethod(methodValue){
-		 document.getElementById("_method").value=methodValue;
-		 document.getElementById("employee").submit();
-	 }
+		function changeMethodAndSubmit(methodValue) {
+			document.getElementById("_method").value = methodValue;
+			document.getElementById("employee").submit();
+		}
 	</script>
-	
 </head>
 <body style="padding: 15px;">
 
@@ -32,40 +31,35 @@
 		<tr>
 			<!-- Employee Form -->
 			<td valign="top">
-				<spform:form 
-				    class="pure-form" 
-				    method="post" 
-				    modelAttribute="employee"
-				    action="${ pageContext.request.contextPath }/mvc/jdbc/employee/">
-				 <fieldset>
-				  <legend>
-				   <b>Employee Form</b>
+				<spform:form class="pure-form"
+					method="post"
+					modelAttribute="employee"
+					action="${ pageContext.request.contextPath }/mvc/jdbc/employee/">
+					<fieldset>
+						<legend>
+							<b>Employee Form</b>
 							&nbsp;|&nbsp; 
 							<a href="${ pageContext.request.contextPath }/mvc/jdbc/job/">Job Form</a>
-				  </legend>
-				  <input type="hidden" id="_method" name="_method" value="${_method}"/>
-				  <spform:input  path="eid" readonly="true"/><p />
-				  <spform:input  path="ename"/>
-				  <spform:errors path="ename" cssClass="error"/><br />
-				  <p />
-				  <spform:input  path="salary" type="number"/>
-				  <spform:errors path="salary" cssClass="error"/><br />
-				  <p />
-				  <button type="submit" ${ _method eq 'POST'?'':'disabled' } class="pure-button pure-button-primary" >
-				    新增
-				  </button>
-				  <button type="submit" ${ _method eq 'PUT'?'':'disabled' } class="pure-button pure-button-primary" >
-				    修改
-				  </button>
-				   <button type="button" ${ _method eq 'PUT'?'':'disabled' } 
-				           onclick="changeMethod('DELETE')"
-				           class="pure-button pure-button-primary" >
-				    刪除
-				  </button>  
-				  <p />
-				  <spform:errors path="*" cssClass="error" />
-				  <font color="red">${message}</font>
-				 </fieldset>
+						</legend>
+						<input type="hidden" id="_method" name="_method" value="${ _method }" />
+						編號: <spform:input path="eid" readonly="true" /><p />
+						姓名: <spform:input path="ename" /><br />
+							 <spform:errors path="ename" cssClass="error" /><p />
+						薪資: <spform:input path="salary" /><br />
+							 <spform:errors path="salary" cssClass="error" /><p />
+						<button type="submit" ${ _method eq 'POST'?'':'disabled' } class="pure-button pure-button-primary">
+							新增
+						</button>
+						<button type="submit" ${ _method eq 'PUT'?'':'disabled' } class="pure-button pure-button-primary">
+							修改
+						</button>
+						<button type="button" ${ _method eq 'PUT'?'':'disabled' } class="pure-button pure-button-primary"
+								onclick="changeMethodAndSubmit('DELETE')">
+							刪除
+						</button>
+						<p />
+						<spform:errors path="*" cssClass="error" />
+					</fieldset>
 				</spform:form>
 			</td>
 			<!-- Salary Column Chart -->
@@ -85,39 +79,42 @@
 			<!-- Employee List -->
 			<td valign="top" colspan="4">
 				<form class="pure-form">
-				 <fieldset>
-				  <legend>Employee List</legend>
-				  <table class="pure-table pure-table-bordered" style="width: 100%">
-				   <thead>
-				    <tr>
-				     <th>編號</th>
-				     <th>姓名</th>
-				     <th>薪資</th>
-				     <th>工作</th>
-				     <th>建立時間</th>
-				    </tr>
-				   </thead>
-				   <tbody>
-				    <c:forEach var="emp" varStatus="status" items="${employees}">
-				     <tr>
-				      <td>
-				       <a href="./${emp.eid}">${emp.eid}</a>
-				      </td>
-				      <td>${emp.ename}</td>
-				      <td>${emp.salary}</td>
-				      <td>
-				       <c:forEach var="job" items="${emp.jobs}">
-				        ${job.jname} 
-				       </c:forEach>
-				      </td>
-				      <td>${emp.createtime}</td>
-				      
-				     </tr>
-				    </c:forEach>
-				   </tbody>
-				  </table>
-				 </fieldset>
+					<fieldset>
+						<legend>
+							Employee List | 
+							<c:forEach end="${pageCount}" begin="1" var="num">
+							 <a href="${pageContext.request.contextPath}/mvc/jdbc/employee/page/${num}">${num}</a>
+							</c:forEach>
+						</legend>
+						<table class="pure-table pure-table-bordered" style="width: 100%">
+							<thead>
+								<tr>
+									<th>編號</th><th>姓名</th><th>薪資</th><th>工作</th><th>建立時間</th>
+								<tr>
+							</thead>
+							<tbody>
+								<c:forEach var="emp" items="${ employees }">
+									<tr>
+										<td>
+											<a href="${ pageContext.request.contextPath }/mvc/jdbc/employee/${ emp.eid }" title="按我一下可以修改">
+											${ emp.eid }
+										    </a>
+										</td>
+										<td>${ emp.ename }</td>
+										<td>${ emp.salary }</td>
+										<td>
+											<c:forEach var="job" items="${ emp.jobs }">
+												${ job.jname }
+											</c:forEach>
+										</td>
+										<td>${ emp.createtime }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</fieldset>
 				</form>
+				
 			</td>
 		</tr>
 	</table>
