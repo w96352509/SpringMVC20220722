@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DESEncryptDemo {
 	public static void main(String[] args) throws Exception {
-		String key = "C:\\Users\\user\\git\\SpringMVC20220722\\key\\user.key"; // 密鑰位置
+		String key = "C:\\Users\\user\\git\\SpringMVC20220722\\key\\user3.key"; // 密鑰位置
 		DESEncryptService des = new DESEncryptService(key);
 		
 		// 明文
@@ -18,7 +18,7 @@ public class DESEncryptDemo {
 		
 		//-----------------------------------------------------------------------------------------
 		// 解密
-		key = "C:\\Users\\user\\git\\SpringMVC20220722\\key\\user.key"; // 密鑰位置
+		key = "C:\\Users\\user\\git\\SpringMVC20220722\\key\\user3.key"; // 密鑰位置
 		des = new DESEncryptService(key);
 		byte[] deMsg = des.decryptor(enMsg); // 假設已經從資料庫抓到 enMsg 密文
 		System.out.println("解密: " + new String(deMsg));

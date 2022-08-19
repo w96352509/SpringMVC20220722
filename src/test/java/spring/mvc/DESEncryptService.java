@@ -32,6 +32,7 @@ public class DESEncryptService {
 		
 		File file = new File(path);
 		if(file.exists()){
+			// 產生 .key 檔
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
             secretkey = (SecretKey)ois.readObject();
         } else {
