@@ -147,14 +147,14 @@
 			<version>5.4.0.Final</version>
 		</dependency>
 
-        <!-- yahooFinanceAPI -->
-		
+		<!-- yahooFinanceAPI -->
+
 		<dependency>
-		    <groupId>com.yahoofinance-api</groupId>
-		    <artifactId>YahooFinanceAPI</artifactId>
-		    <version>3.17.0</version>
+			<groupId>com.yahoofinance-api</groupId>
+			<artifactId>YahooFinanceAPI</artifactId>
+			<version>3.17.0</version>
 		</dependency>
-		
+
 		<!-- SpringData -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -175,18 +175,26 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.3.11.Final</version>
 		</dependency>
-		
+
 		<dependency>
-    		<groupId>org.slf4j</groupId>
+			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.30</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
 
 	</dependencies>
 

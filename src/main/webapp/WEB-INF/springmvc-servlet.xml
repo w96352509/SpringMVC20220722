@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:c="http://www.springframework.org/schema/c"
@@ -26,7 +27,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
 		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">
-
+     
 	<!-- spring mvc enable -->
 	<mvc:annotation-driven />
 
@@ -108,5 +109,45 @@
 	
 	<!-- 開啟事務的註解@驅動, 對事物相關的註解@進行掃描與解析 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- 5. 配置 Spring Data Jpa -->
+	<!-- base-package: 掃描 Repository Bean 所在的 package -->
+	<jpa:repositories base-package="spring.mvc"
+		entity-manager-factory-ref="entityManagerFactory"
+		transaction-manager-ref="transactionManager">
+	</jpa:repositories>
+	
+	<!-- 配置 JPA 的 EntityManagerFactory -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+		<!-- 1 定義 datadource -->
+		<property name="dataSource" ref="dataSource" />
+		
+		<!-- 2 定義 vendor -->	
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		
+		<!-- 3 定義 entity 掃描區 -->
+		<property name="packagesToScan">
+			<list>
+				<value>spring.mvc</value>
+			</list>
+		</property>
+		
+		<!-- 4 jpa vender 的配置設定 -->
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- update 表示若資料表不存在但是有entity就會自動新增 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
 	
 </beans>
