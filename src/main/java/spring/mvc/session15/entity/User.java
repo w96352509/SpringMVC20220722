@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) // 資料庫決定序號生成
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // 資料庫決定序號生成
 	private Long id;
 	
 	@Column(length = 50 , name = "name" , unique = true) // 不可重複
@@ -34,8 +34,6 @@ public class User {
 	@JsonFormat(pattern = "yyyy/MM/dd")     // Json 字串呈現格式
 	@Column
 	private Date birth;
-
-    
 	
 	public Long getId() {
 		return id;
