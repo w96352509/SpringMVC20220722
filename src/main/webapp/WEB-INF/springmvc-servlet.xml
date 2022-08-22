@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:c="http://www.springframework.org/schema/c"
@@ -110,12 +109,9 @@
 	<!-- 開啟事務的註解@驅動, 對事物相關的註解@進行掃描與解析 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<!-- 5. 配置 Spring Data Jpa -->
-	<!-- base-package: 掃描 Repository Bean 所在的 package -->
-	<jpa:repositories base-package="spring.mvc"
-		entity-manager-factory-ref="entityManagerFactory"
-		transaction-manager-ref="transactionManager">
-	</jpa:repositories>
+	
+
+	
 	
 	<!-- 配置 JPA 的 EntityManagerFactory -->
 	<bean id="entityManagerFactory"
@@ -148,6 +144,6 @@
 		</property>
 	</bean>
 	
-	
+	 <import resource="classpath:springdata-jpa-config.xml"></import>
 	
 </beans>
