@@ -35,6 +35,17 @@ public class User {
 	@Column
 	private Date birth;
 	
+	
+	public User() {
+		
+	}
+	
+	public User(String name, String password, Date birth) {
+		this.name = name;
+		this.password = password;
+		this.birth = birth;
+	}
+
 	public Long getId() {
 		return id;
 	}

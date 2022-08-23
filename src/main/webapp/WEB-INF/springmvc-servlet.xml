@@ -82,12 +82,7 @@
 		<property name="user" value="root" />
 		<property name="password" value="12345678" />
 		
-		<!-- options -->
-		<property name="minPoolSize" value="10" />
-		<property name="maxPoolSize" value="100" />
-		<property name="initialPoolSize" value="10" />
-		<property name="maxIdleTime" value="1800" />
-		<property name="maxStatements" value="100" /> <!-- 0 表示 no cahce any statement -->
+		
 		
 	</bean>
 	
